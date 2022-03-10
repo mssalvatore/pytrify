@@ -42,3 +42,4 @@ repos:
     rev: v2.3
     hooks:
       - id: vulture
+        args: [vulture_ignorelist.py]
