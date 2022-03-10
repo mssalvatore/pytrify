@@ -10,3 +10,6 @@ log_cli_date_format = "%H:%M:%S"
 addopts = "-v --capture=sys tests"
 norecursedirs = "node_modules dist"
 markers = ["slow: mark test as slow"]
+
+[tool.vulture]
+paths = ["rowrapper"]
