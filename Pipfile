@@ -9,6 +9,7 @@ name = "pypi"
 pytest = "*"
 pytest-cov = "*"
 pre-commit = "*"
+pynvim = "*"
 
 [requires]
 python_version = "3.9"
