@@ -36,7 +36,7 @@ repos:
         name: pytest
         entry: pytest
         language: system
-        files: "."
+        files: "rowrapper"
         stages: [push]
   - repo: https://github.com/jendrikseipp/vulture
     rev: v2.3
