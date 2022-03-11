@@ -4,7 +4,7 @@ from types import MappingProxyType
 
 import pytest
 
-from rowrapper import IMMUTABLE_TYPES, AccessError, ListView, wrap_object
+from rowrapper import IMMUTABLE_TYPES, ImmutableAttributeError, ListView, wrap_object
 
 
 class T:
@@ -30,9 +30,9 @@ def test_get_attribute():
 def test_immutible_attributes():
     obj = wrap_object(T(1, 2))
 
-    with pytest.raises(AccessError):
+    with pytest.raises(ImmutableAttributeError):
         obj.a = 10
-    with pytest.raises(AccessError):
+    with pytest.raises(ImmutableAttributeError):
         obj.b = 10
 
 
@@ -43,7 +43,7 @@ def test_method_calls():
 
 def test_method_call_cant_modify_object():
     obj = wrap_object(T(1, 2))
-    with pytest.raises(AccessError):
+    with pytest.raises(ImmutableAttributeError):
         obj.set_c(3)
 
 

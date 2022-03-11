@@ -20,46 +20,22 @@ IMMUTABLE_TYPES = {  # using dict, not set, to preserve order
 }
 
 
-class AccessError(TypeError):
+class ImmutableAttributeError(TypeError):
     pass
-
-
-def ro_init(self, obj):
-    object.__setattr__(self, "_obj", obj)
-
-
-def ro_sa(self, name, value):
-    raise AccessError("Objects that are wrapped by a read-only wrapper do not support assignment")
-
-
-def ro_ga(self, attr):
-    attr_reference = getattr(object.__getattribute__(self, "_obj"), attr)
-
-    if ismethod(attr_reference):
-        return object.__getattribute__(self, attr)
-
-    return wrap_object(attr_reference)
 
 
 def wrap_object(obj: object):
     if type(obj) in IMMUTABLE_TYPES:
         return obj
+
     if isinstance(obj, MutableMapping):
         return to_mapping_proxy_type(obj)
+
     if isinstance(obj, MutableSequence):
         return to_immutable_sequence(obj)
 
     Wrapper = _create_wrapper_class(obj.__class__)  # ignore: type
     return Wrapper(obj)
-
-
-@lru_cache(maxsize=None)
-def _create_wrapper_class(class_: Type):
-    return type(
-        f"RO{class_.__name__}",
-        (class_,),
-        {"__init__": ro_init, "__setattr__": ro_sa, "__getattribute__": ro_ga},
-    )
 
 
 def to_immutable_sequence(sequence):
@@ -68,3 +44,35 @@ def to_immutable_sequence(sequence):
 
 def to_mapping_proxy_type(mapping):
     return MappingProxyType({key: wrap_object(value) for key, value in mapping.items()})
+
+
+@lru_cache(maxsize=None)
+def _create_wrapper_class(class_: Type):
+    return type(
+        f"RO{class_.__name__}",
+        (class_,),
+        {
+            "__init__": rowrapper_init,
+            "__getattribute__": rowrapper_getattribute,
+            "__setattr__": rowrapper_setattr,
+        },
+    )
+
+
+def rowrapper_init(self, obj):
+    object.__setattr__(self, "_obj", obj)
+
+
+def rowrapper_getattribute(self, attr):
+    attr_reference = getattr(object.__getattribute__(self, "_obj"), attr)
+
+    if ismethod(attr_reference):
+        return object.__getattribute__(self, attr)
+
+    return wrap_object(attr_reference)
+
+
+def rowrapper_setattr(self, name, value):
+    raise ImmutableAttributeError(
+        "Objects that are wrapped by a read-only wrapper do not support assignment"
+    )
