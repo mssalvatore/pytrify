@@ -24,7 +24,7 @@ class ImmutableAttributeError(TypeError):
     pass
 
 
-def wrap_object(obj: object):
+def wrap_readonly(obj: object):
     if type(obj) in IMMUTABLE_TYPES:
         return obj
 
@@ -39,11 +39,11 @@ def wrap_object(obj: object):
 
 
 def to_immutable_sequence(sequence):
-    return ListView(list(map(wrap_object, sequence)))
+    return ListView(list(map(wrap_readonly, sequence)))
 
 
 def to_mapping_proxy_type(mapping):
-    return MappingProxyType({key: wrap_object(value) for key, value in mapping.items()})
+    return MappingProxyType({key: wrap_readonly(value) for key, value in mapping.items()})
 
 
 @lru_cache(maxsize=None)
@@ -69,7 +69,7 @@ def rowrapper_getattribute(self, attr):
     if ismethod(attr_reference):
         return object.__getattribute__(self, attr)
 
-    return wrap_object(attr_reference)
+    return wrap_readonly(attr_reference)
 
 
 def rowrapper_setattr(self, name, value):
