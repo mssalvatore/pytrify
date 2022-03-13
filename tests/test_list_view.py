@@ -1,6 +1,6 @@
 import pytest
 
-from rowrapper import ListView
+from pytrify import ListView
 
 
 @pytest.fixture
