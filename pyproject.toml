@@ -23,3 +23,33 @@ markers = ["slow: mark test as slow"]
 
 [tool.vulture]
 paths = ["rowrapper"]
+
+[tool.poetry]
+name = "rowrapper"
+version = "0.1.0"
+description = "TBD"
+authors = ["Mike Salvatore <mike.s.salvatore@gmail.com>"]
+license = "MIT"
+classifiers=[
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Utilities",
+]
+include = ["CHANGELOG.md"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.0"
+pytest-cov = "^3.0.0"
+black = "^22.1.0"
+pynvim = "^0.4.3"
+isort = "^5.10.1"
+mypy = "^0.940"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
