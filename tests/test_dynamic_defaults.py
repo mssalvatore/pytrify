@@ -1,6 +1,6 @@
 import time
 
-from rowrapper import DynamicDefault, dynamic_defaults
+from paramutils import DynamicDefault, dynamic_defaults
 
 
 @dynamic_defaults({"timestamp"})

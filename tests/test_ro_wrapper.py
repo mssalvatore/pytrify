@@ -4,7 +4,7 @@ from types import MappingProxyType
 
 import pytest
 
-from rowrapper import IMMUTABLE_TYPES, ImmutableAttributeError, ListView, wrap_readonly
+from paramutils import IMMUTABLE_TYPES, ImmutableAttributeError, ListView, wrap_readonly
 
 
 class T:

@@ -1,6 +1,6 @@
 import pytest
 
-from rowrapper import ListView
+from paramutils import ListView
 
 
 @pytest.fixture
