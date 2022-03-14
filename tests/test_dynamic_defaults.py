@@ -1,3 +1,4 @@
+import itertools
 import time
 
 from paramutils import DynamicDefault, dynamic_defaults
@@ -6,14 +7,13 @@ from paramutils import DynamicDefault, dynamic_defaults
 class Counter:
     def __init__(self, value):
         self._initial_value = value
-        self.counter = value
+        self.counter = itertools.count(value)
 
     def __call__(self):
-        self.counter += 1
-        return self.counter
+        return next(self.counter)
 
     def reset(self):
-        self.counter = self._initial_value
+        self.counter = itertools.count(self._initial_value)
 
 
 @dynamic_defaults({"timestamp"})
@@ -46,7 +46,7 @@ def test_fn_generates_uses_provided_callable():
 
     output_timestamp = fn(None, None, timestamp=counter)
 
-    assert output_timestamp == 11
+    assert output_timestamp == 10.0
 
 
 def test_fn_uses_default_callable():
@@ -62,8 +62,8 @@ def test_fn_generates_new_dynamic_default():
     assert output_timestamp_1 < output_timestamp_2 < output_timestamp_3
 
 
-counter1 = Counter(0)
-counter2 = Counter(99)
+counter1 = Counter(1)
+counter2 = Counter(100)
 
 
 @dynamic_defaults({"actual1", "actual2"})
@@ -89,7 +89,7 @@ def test_multiple_default_fn():
 def test_multiple_with_user_provided_fn():
     counter1.reset()
     counter2.reset()
-    counter3 = Counter(41)
+    counter3 = Counter(42)
 
     check_values(42, 100, actual1=counter3)
     check_values(1, 43, actual2=counter3)
