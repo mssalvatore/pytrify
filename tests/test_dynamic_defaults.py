@@ -3,6 +3,19 @@ import time
 from paramutils import DynamicDefault, dynamic_defaults
 
 
+class Counter:
+    def __init__(self, value):
+        self._initial_value = value
+        self.counter = value
+
+    def __call__(self):
+        self.counter += 1
+        return self.counter
+
+    def reset(self):
+        self.counter = self._initial_value
+
+
 @dynamic_defaults({"timestamp"})
 def fn(
     _positional1,
@@ -29,12 +42,7 @@ def test_fn_uses_provided_static_argument():
 
 
 def test_fn_generates_uses_provided_callable():
-    def counter() -> float:
-        counter.c += 1
-
-        return counter.c
-
-    counter.c = 10.0
+    counter = Counter(10.0)
 
     output_timestamp = fn(None, None, timestamp=counter)
 
@@ -54,4 +62,34 @@ def test_fn_generates_new_dynamic_default():
     assert output_timestamp_1 < output_timestamp_2 < output_timestamp_3
 
 
-# TODO: Test a function with multiple dynamic defaults
+counter1 = Counter(0)
+counter2 = Counter(99)
+
+
+@dynamic_defaults({"actual1", "actual2"})
+def check_values(
+    expected1,
+    expected2,
+    *,
+    actual1: DynamicDefault[int] = counter1,
+    _dummy=None,
+    actual2: DynamicDefault[int] = counter2
+):
+    assert expected1 == actual1
+    assert expected2 == actual2
+
+
+def test_multiple_default_fn():
+    counter1.reset()
+    counter2.reset()
+    check_values(1, 100)
+    check_values(2, 101)
+
+
+def test_multiple_with_user_provided_fn():
+    counter1.reset()
+    counter2.reset()
+    counter3 = Counter(41)
+
+    check_values(42, 100, actual1=counter3)
+    check_values(1, 43, actual2=counter3)
