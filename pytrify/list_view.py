@@ -1,8 +1,12 @@
 from collections import UserList
 from typing import MutableSequence, Optional
 
+from . import SetOnce
+
 
 class ListView(UserList):
+    data: MutableSequence = SetOnce()
+
     # Note: We'll accept any MutableSequence. "Lists implement all of the common and mutable
     # sequence operations. Lists also provide the following additional method: [sort()]"
     # (https://docs.python.org/3/library/stdtypes.html#lists). Since sort() modifies the list, it's

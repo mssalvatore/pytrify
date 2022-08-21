@@ -174,3 +174,8 @@ def test_hash():
     lv_2 = ListView(a_list)
 
     assert hash(lv_1) != hash(lv_2)
+
+
+def test_set_data(lv):
+    with pytest.raises(TypeError):
+        lv.data = []
