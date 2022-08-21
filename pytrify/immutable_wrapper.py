@@ -48,18 +48,18 @@ def _create_wrapper_class(class_: Type):
         f"RO{class_.__name__}",
         (class_,),
         {
-            "__init__": rowrapper_init,
-            "__getattribute__": rowrapper_getattribute,
-            "__setattr__": rowrapper_setattr,
+            "__init__": immutable_wrapper_init,
+            "__getattribute__": immutable_wrapper_getattribute,
+            "__setattr__": immutable_wrapper_setattr,
         },
     )
 
 
-def rowrapper_init(self, obj):
+def immutable_wrapper_init(self, obj):
     object.__setattr__(self, "_obj", obj)
 
 
-def rowrapper_getattribute(self, attr):
+def immutable_wrapper_getattribute(self, attr):
     attr_reference = getattr(object.__getattribute__(self, "_obj"), attr)
 
     if ismethod(attr_reference):
@@ -68,7 +68,7 @@ def rowrapper_getattribute(self, attr):
     return pytrify(attr_reference)
 
 
-def rowrapper_setattr(self, name, value):
+def immutable_wrapper_setattr(self, name, value):
     raise ImmutableAttributeError(
         "Objects that are wrapped by a read-only wrapper do not support assignment"
     )
