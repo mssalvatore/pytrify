@@ -4,7 +4,7 @@ from types import MappingProxyType
 
 import pytest
 
-from pytrify import IMMUTABLE_TYPES, ImmutableAttributeError, ListView, wrap_readonly
+from pytrify import IMMUTABLE_TYPES, ImmutableAttributeError, ListView, pytrify
 
 
 class T:
@@ -21,14 +21,14 @@ class T:
 
 
 def test_get_attribute():
-    obj = wrap_readonly(T(1, 2))
+    obj = pytrify(T(1, 2))
 
     assert obj.a == 1
     assert obj.b == 2
 
 
 def test_immutible_attributes():
-    obj = wrap_readonly(T(1, 2))
+    obj = pytrify(T(1, 2))
 
     with pytest.raises(ImmutableAttributeError):
         obj.a = 10
@@ -37,24 +37,24 @@ def test_immutible_attributes():
 
 
 def test_method_calls():
-    obj = wrap_readonly(T(1, 2))
+    obj = pytrify(T(1, 2))
     assert obj.get_sum() == 3
 
 
 def test_method_call_cant_modify_object():
-    obj = wrap_readonly(T(1, 2))
+    obj = pytrify(T(1, 2))
     with pytest.raises(ImmutableAttributeError):
         obj.set_c(3)
 
 
 def test_wrapper_object_is_subclass():
-    obj = wrap_readonly(T(None, None))
+    obj = pytrify(T(None, None))
     assert isinstance(obj, T)
 
 
 def test_modify_underlying_dict():
     test_dict = copy(TEST_DICT)
-    obj = wrap_readonly(T(test_dict, None))
+    obj = pytrify(T(test_dict, None))
 
     assert "license_to_kill" not in obj.a
     test_dict["license_to_kill"] = True
@@ -62,14 +62,14 @@ def test_modify_underlying_dict():
 
 
 def test_modify_dict__depth_1():
-    obj = wrap_readonly(T({"I": 1, "II": 2}, None))
+    obj = pytrify(T({"I": 1, "II": 2}, None))
     with pytest.raises(TypeError):
         obj.a["I"] = 10
 
 
 def test_modify_dict__depth_2():
     test_dict = copy(TEST_DICT)
-    obj = wrap_readonly(T({"agent": test_dict}, None))
+    obj = pytrify(T({"agent": test_dict}, None))
 
     assert "license_to_kill" not in obj.a["agent"]
     test_dict["license_to_kill"] = True
@@ -82,7 +82,7 @@ def test_modify_dict__depth_2():
 def test_modify_dict_of_lists__depth_3():
     test_dict = copy(TEST_DICT)
     test_dict["equipment"] = ["Walther PPK", "Aston Martin"]
-    obj = wrap_readonly(T({"agent": test_dict}, None))
+    obj = pytrify(T({"agent": test_dict}, None))
 
     with pytest.raises(TypeError):
         obj.a["agent"]["equipment"].append("Rolex")
@@ -106,12 +106,12 @@ IMMUTABLE_OBJECTS = [
 
 @pytest.mark.parametrize("value,type_", zip_longest(IMMUTABLE_OBJECTS, IMMUTABLE_TYPES.keys()))
 def test_immutable_types(value, type_):
-    obj = wrap_readonly(T(value, None))
+    obj = pytrify(T(value, None))
     assert isinstance(obj.a, type_)
 
 
 def test_modify_list__depth_1():
-    obj = wrap_readonly(T(["i", "ii", "iii", "iv"], None))
+    obj = pytrify(T(["i", "ii", "iii", "iv"], None))
     with pytest.raises(TypeError):
         obj.a[2] = "x"
 
@@ -126,7 +126,7 @@ def test_modify_list__depth_2():
     a2 = [4, 5, 6]
     a = [a1, a2]
 
-    obj = wrap_readonly(T(a, None))
+    obj = pytrify(T(a, None))
 
     assert len(obj.a[0]) == 3
     a1.append(3.5)
@@ -147,7 +147,7 @@ def test_modify_list_of_dicts__depth_3():
     a2 = [4, 5, test_dict]
     a = [a1, a2]
 
-    obj = wrap_readonly(T(a, None))
+    obj = pytrify(T(a, None))
     assert "license_to_kill" not in obj.a[1][2]
     test_dict["license_to_kill"] = True
     assert "license_to_kill" in obj.a[1][2]
