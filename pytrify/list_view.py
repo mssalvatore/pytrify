@@ -1,13 +1,14 @@
 from collections import UserList
-from typing import List, Optional
+from typing import MutableSequence, Optional
 
 
 class ListView(UserList):
-    def __init__(self, initlist: Optional[List] = None):
-        self.data = initlist
-
-        if self.data is None:
-            self.data = []
+    # Note: We'll accept any MutableSequence. "Lists implement all of the common and mutable
+    # sequence operations. Lists also provide the following additional method: [sort()]"
+    # (https://docs.python.org/3/library/stdtypes.html#lists). Since sort() modifies the list, it's
+    # not supported by ListView.
+    def __init__(self, initlist: Optional[MutableSequence] = None):
+        self.data = [] if initlist is None else initlist
 
     def __delitem__(self, *_args, **_kwargs):
         ListView._raise_type_error()
