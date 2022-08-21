@@ -8,15 +8,15 @@ class ListView(UserList):
     # (https://docs.python.org/3/library/stdtypes.html#lists). Since sort() modifies the list, it's
     # not supported by ListView.
     def __init__(self, initlist: Optional[MutableSequence] = None):
-        self.data = [] if initlist is None else initlist
+        self.data = [] if initlist is None else initlist  # type: ignore
 
     def __delitem__(self, *_args, **_kwargs):
         ListView._raise_type_error()
 
-    def __iadd__(self, *_args, **_kwargs):
+    def __iadd__(self, *_args, **_kwargs):  # type: ignore
         ListView._raise_type_error()
 
-    def __imul__(self, *_args, **_kwargs):
+    def __imul__(self, *_args, **_kwargs):  # type: ignore
         ListView._raise_type_error()
 
     def __setitem__(self, *_args, **_kwargs):
