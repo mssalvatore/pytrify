@@ -25,7 +25,7 @@ def pytrify(obj: object):
         return obj
 
     if isinstance(obj, MutableMapping):
-        return to_mapping_proxy_type(obj)
+        return to_immutable_mapping(obj)
 
     if isinstance(obj, MutableSequence):
         return to_immutable_sequence(obj)
@@ -38,7 +38,7 @@ def to_immutable_sequence(sequence):
     return ListView(list(map(pytrify, sequence)))
 
 
-def to_mapping_proxy_type(mapping):
+def to_immutable_mapping(mapping):
     return MappingProxyType({key: pytrify(value) for key, value in mapping.items()})
 
 
