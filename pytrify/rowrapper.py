@@ -4,7 +4,7 @@ from inspect import ismethod
 from types import MappingProxyType
 from typing import Type
 
-from . import ListView
+from . import ImmutableAttributeError, ListView
 
 IMMUTABLE_TYPES = {  # using dict, not set, to preserve order
     bool: None,
@@ -18,10 +18,6 @@ IMMUTABLE_TYPES = {  # using dict, not set, to preserve order
     str: None,
     tuple: None,
 }
-
-
-class ImmutableAttributeError(TypeError):
-    pass
 
 
 def wrap_readonly(obj: object):
