@@ -163,3 +163,14 @@ def test_index(lv):
 def test_no_constructor_arguments():
     empty_lv = ListView()
     assert len(empty_lv) == 0
+
+
+def test_hash():
+    a_list = [1, 2, 3]
+    lv_1 = ListView(a_list)
+
+    assert hash(lv_1) == hash(lv_1)
+
+    lv_2 = ListView(a_list)
+
+    assert hash(lv_1) != hash(lv_2)

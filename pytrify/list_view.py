@@ -10,6 +10,9 @@ class ListView(UserList):
     def __init__(self, initlist: Optional[MutableSequence] = None):
         self.data = [] if initlist is None else initlist  # type: ignore
 
+    def __hash__(self) -> int:
+        return hash((id(self), id(self.data)))
+
     def __delitem__(self, *_args, **_kwargs):
         ListView._raise_type_error()
 
