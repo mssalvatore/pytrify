@@ -25,20 +25,20 @@ def pytrify(obj: object):
         return obj
 
     if isinstance(obj, MutableMapping):
-        return to_immutable_mapping(obj)
+        return _make_immutable_mapping(obj)
 
     if isinstance(obj, MutableSequence):
-        return to_immutable_sequence(obj)
+        return _make_immutable_sequence(obj)
 
     Wrapper = _create_wrapper_class(obj.__class__)  # ignore: type
     return Wrapper(obj)
 
 
-def to_immutable_sequence(sequence):
+def _make_immutable_sequence(sequence):
     return ListView(list(map(pytrify, sequence)))
 
 
-def to_immutable_mapping(mapping):
+def _make_immutable_mapping(mapping):
     return MappingProxyType({key: pytrify(value) for key, value in mapping.items()})
 
 
