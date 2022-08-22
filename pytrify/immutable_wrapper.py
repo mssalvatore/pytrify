@@ -30,6 +30,9 @@ def pytrify(obj: object):
     if isinstance(obj, MutableSequence):
         return _make_immutable_sequence(obj)
 
+    if isinstance(obj, set):
+        return frozenset(map(pytrify, obj))
+
     Wrapper = _create_wrapper_class(obj.__class__)  # ignore: type
     return Wrapper(obj)
 

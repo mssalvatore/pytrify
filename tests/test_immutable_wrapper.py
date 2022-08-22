@@ -164,3 +164,13 @@ def test_modify_mapping_keys():
     with pytest.raises(ImmutableAttributeError):
         for key in d.keys():
             key.a = 12345
+
+
+def test_modify_set_item():
+    t = T(1, 2)
+
+    immutable_set = pytrify({t})
+
+    with pytest.raises(ImmutableAttributeError):
+        for item in immutable_set:
+            item.a = 12345
