@@ -14,6 +14,7 @@ IMMUTABLE_TYPES = {  # using dict, not set, to preserve order
     int: None,
     type(None): None,
     str: None,
+    range: None,
 }
 
 

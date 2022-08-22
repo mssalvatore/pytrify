@@ -98,6 +98,7 @@ IMMUTABLE_OBJECTS = [
     42,
     None,
     "Hello, World!",
+    range(0, 10),
 ]
 
 
