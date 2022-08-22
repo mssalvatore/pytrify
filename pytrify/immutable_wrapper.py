@@ -39,7 +39,7 @@ def _make_immutable_sequence(sequence):
 
 
 def _make_immutable_mapping(mapping):
-    return MappingProxyType({key: pytrify(value) for key, value in mapping.items()})
+    return MappingProxyType({pytrify(key): pytrify(value) for key, value in mapping.items()})
 
 
 @lru_cache(maxsize=None)

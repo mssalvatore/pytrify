@@ -154,3 +154,13 @@ def test_modify_list_of_dicts__depth_3():
 
     with pytest.raises(TypeError):
         obj.a[1][2]["cia_contact"] = "Felix Leiter"
+
+
+def test_modify_mapping_keys():
+    t = T(1, 2)
+
+    d = pytrify({t: "value"})
+
+    with pytest.raises(ImmutableAttributeError):
+        for key in d.keys():
+            key.a = 12345
