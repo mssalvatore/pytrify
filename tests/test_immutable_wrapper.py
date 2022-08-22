@@ -96,7 +96,6 @@ IMMUTABLE_OBJECTS = [
     complex(7, 144),
     3.14,
     42,
-    MappingProxyType(TEST_DICT),
     None,
     "Hello, World!",
 ]
@@ -162,6 +161,13 @@ def test_modify_mapping_keys():
     with pytest.raises(ImmutableAttributeError):
         for key in d.keys():
             key.a = 12345
+
+
+def test_modify_mapping_proxy_type_value():
+    mpt = pytrify(MappingProxyType({"test": T(1, 2)}))
+
+    with pytest.raises(ImmutableAttributeError):
+        mpt["test"].a = 12345
 
 
 @pytest.mark.parametrize("test_set", [set([T(1, 2)]), frozenset([T(1, 2)])])

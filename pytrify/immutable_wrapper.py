@@ -1,4 +1,4 @@
-from collections.abc import MutableMapping, Sequence
+from collections.abc import Mapping, Sequence
 from functools import lru_cache
 from inspect import ismethod
 from types import MappingProxyType
@@ -12,7 +12,6 @@ IMMUTABLE_TYPES = {  # using dict, not set, to preserve order
     complex: None,
     float: None,
     int: None,
-    MappingProxyType: None,
     type(None): None,
     str: None,
 }
@@ -22,7 +21,7 @@ def pytrify(obj: object):
     if type(obj) in IMMUTABLE_TYPES:
         return obj
 
-    if isinstance(obj, MutableMapping):
+    if isinstance(obj, Mapping):
         return _make_immutable_mapping(obj)
 
     if isinstance(obj, Sequence):
