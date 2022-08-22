@@ -11,7 +11,6 @@ IMMUTABLE_TYPES = {  # using dict, not set, to preserve order
     bytes: None,
     complex: None,
     float: None,
-    frozenset: None,
     int: None,
     MappingProxyType: None,
     type(None): None,
@@ -30,7 +29,7 @@ def pytrify(obj: object):
     if isinstance(obj, MutableSequence):
         return _make_immutable_sequence(obj)
 
-    if isinstance(obj, set):
+    if isinstance(obj, set) or isinstance(obj, frozenset):
         return frozenset(map(pytrify, obj))
 
     Wrapper = _create_wrapper_class(obj.__class__)  # ignore: type

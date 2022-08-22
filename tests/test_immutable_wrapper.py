@@ -95,7 +95,6 @@ IMMUTABLE_OBJECTS = [
     b"abc",
     complex(7, 144),
     3.14,
-    frozenset((1, 2, 3)),
     42,
     MappingProxyType(TEST_DICT),
     None,
@@ -166,10 +165,9 @@ def test_modify_mapping_keys():
             key.a = 12345
 
 
-def test_modify_set_item():
-    t = T(1, 2)
-
-    immutable_set = pytrify({t})
+@pytest.mark.parametrize("test_set", [set([T(1, 2)]), frozenset([T(1, 2)])])
+def test_modify_set_item(test_set):
+    immutable_set = pytrify(test_set)
 
     with pytest.raises(ImmutableAttributeError):
         for item in immutable_set:
