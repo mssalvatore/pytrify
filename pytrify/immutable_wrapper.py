@@ -4,7 +4,7 @@ from inspect import ismethod
 from types import MappingProxyType
 from typing import Type
 
-from . import ImmutableAttributeError, ListView
+from . import ImmutableAttributeError
 
 IMMUTABLE_TYPES = {  # using dict, not set, to preserve order
     bool: None,
@@ -36,7 +36,7 @@ def pytrify(obj: object):
 
 
 def _make_immutable_sequence(sequence):
-    return ListView(list(map(pytrify, sequence)))
+    return tuple(list(map(pytrify, sequence)))
 
 
 def _make_immutable_mapping(mapping):

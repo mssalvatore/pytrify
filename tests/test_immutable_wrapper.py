@@ -1,10 +1,11 @@
+import json
 from copy import copy
 from itertools import zip_longest
 from types import MappingProxyType
 
 import pytest
 
-from pytrify import IMMUTABLE_TYPES, ImmutableAttributeError, ListView, pytrify
+from pytrify import IMMUTABLE_TYPES, ImmutableAttributeError, pytrify
 
 
 class T:
@@ -84,7 +85,7 @@ def test_modify_dict_of_lists__depth_3():
     test_dict["equipment"] = ["Walther PPK", "Aston Martin"]
     obj = pytrify(T({"agent": test_dict}, None))
 
-    with pytest.raises(TypeError):
+    with pytest.raises(AttributeError):
         obj.a["agent"]["equipment"].append("Rolex")
 
 
@@ -113,10 +114,10 @@ def test_modify_list__depth_1():
     with pytest.raises(TypeError):
         obj.a[2] = "x"
 
-    with pytest.raises(TypeError):
+    with pytest.raises(AttributeError):
         obj.a.append("x")
 
-    assert isinstance(obj.a, ListView)
+    assert isinstance(obj.a, tuple)
 
 
 def test_modify_list__depth_2():
@@ -132,10 +133,10 @@ def test_modify_list__depth_2():
     assert 3.5 in obj.a[0]
 
     assert len(obj.a) == 2
-    assert isinstance(obj.a[0], ListView)
-    assert isinstance(obj.a[1], ListView)
+    assert isinstance(obj.a[0], tuple)
+    assert isinstance(obj.a[1], tuple)
 
-    with pytest.raises(TypeError):
+    with pytest.raises(AttributeError):
         obj.a[1].append("x")
 
 
@@ -191,3 +192,9 @@ def test_modify_tuple_element():
 
     with pytest.raises(ImmutableAttributeError):
         pytrified_tuple[2].a = 1
+
+
+def test_pytrified_list_serializable():
+    pytrified_list = pytrify([1, 2, 3])
+
+    assert json.dumps(pytrified_list) == "[1, 2, 3]"
