@@ -99,7 +99,6 @@ IMMUTABLE_OBJECTS = [
     MappingProxyType(TEST_DICT),
     None,
     "Hello, World!",
-    (1, 2, 3),
 ]
 
 
@@ -172,3 +171,16 @@ def test_modify_set_item(test_set):
     with pytest.raises(ImmutableAttributeError):
         for item in immutable_set:
             item.a = 12345
+
+
+def test_modify_tuple_element():
+    pytrified_tuple = pytrify((T(1, 2), T(3, 4), T(5, 6)))
+
+    with pytest.raises(ImmutableAttributeError):
+        pytrified_tuple[0].a = 1
+
+    with pytest.raises(ImmutableAttributeError):
+        pytrified_tuple[1].a = 1
+
+    with pytest.raises(ImmutableAttributeError):
+        pytrified_tuple[2].a = 1
