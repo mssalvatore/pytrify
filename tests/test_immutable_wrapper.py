@@ -194,6 +194,16 @@ def test_modify_tuple_element():
         pytrified_tuple[2].a = 1
 
 
+def test_change_underlying_object():
+    t = T(1, 2)
+    t_prime = pytrify(t)
+    assert t_prime.a == 1
+
+    t.a = 4
+
+    assert t_prime.a == 4
+
+
 def test_pytrified_list_serializable():
     pytrified_list = pytrify([1, 2, 3])
 
