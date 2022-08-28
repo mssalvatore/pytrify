@@ -66,6 +66,9 @@ def immutable_wrapper_getattribute(self, attr):
     if ismethod(attr_reference):
         return object.__getattribute__(self, attr)
 
+    if attr == "__class__":
+        return object.__getattribute__(self, "__class__")
+
     return pytrify(attr_reference)
 
 

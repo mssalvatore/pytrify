@@ -11,6 +11,10 @@ the [PEP 440 version scheme](https://peps.python.org/pep-0440/#version-scheme).
 - Use tuple instead of ListView for pytrified sequences.
 - pytrified Sequences are JSON serializable.
 
+### Fixed
+- TypeError when attempting to access `__class__` on pytrified object.
+
+
 ## [0.1.0b1]
 ### Added
 - pytrify()

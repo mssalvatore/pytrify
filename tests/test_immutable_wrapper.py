@@ -198,3 +198,11 @@ def test_pytrified_list_serializable():
     pytrified_list = pytrify([1, 2, 3])
 
     assert json.dumps(pytrified_list) == "[1, 2, 3]"
+
+
+def test_get__class__():
+    t = pytrify(T(1, 2))
+
+    assert t.__class__ != T
+    assert issubclass(t.__class__, T)
+    assert t.__class__.__name__ == "ROT"
