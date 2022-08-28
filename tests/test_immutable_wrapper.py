@@ -160,8 +160,8 @@ def test_modify_mapping_keys():
 
     d = pytrify({t: "value"})
 
-    with pytest.raises(ImmutableAttributeError):
-        for key in d.keys():
+    for key in d.keys():
+        with pytest.raises(ImmutableAttributeError):
             key.a = 12345
 
 
