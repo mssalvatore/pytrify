@@ -15,7 +15,7 @@ the [PEP 440 version scheme](https://peps.python.org/pep-0440/#version-scheme).
 - TypeError when attempting to access `__class__` on pytrified object.
 
 
-## [0.1.0b1]
+## [0.1.0-alpha1]
 ### Added
 - pytrify()
 - ImmutableAttributeError
