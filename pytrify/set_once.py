@@ -21,7 +21,7 @@ class SetOnce:
         >>> t.a = 2
         Traceback (most recent call last):
           File "<stdin>", line 1, in <module>
-          File "/home/msalvatore/git/pytrify/pytrify/set_once.py", line 42, in __set__
+          File "/home/user/git/pytrify/pytrify/set_once.py", line 42, in __set__
             raise ImmutableAttributeError(
         pytrify.ImmutableAttributeError: The attribute "T.a" is immutable after initialization
     """
