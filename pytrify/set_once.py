@@ -27,19 +27,20 @@ class SetOnce:
     """
 
     def __set_name__(self, owner: Type, name: str):
-        self._name = f"_setonce_{name}"
+        self._attribute_name = name
+        self._private_attribute_name = f"_setonce_{name}"
         self._flag_name = f"_setonce_{name}_flag"
 
     def __get__(self, obj: T, type: Optional[Type[T]] = None) -> Any:
-        return getattr(obj, self._name)
+        return getattr(obj, self._private_attribute_name)
 
     def __set__(self, obj: Any, value: Any) -> None:
         # TODO: Figure out how to make the flag immutable (set once) too.
         if getattr(obj, self._flag_name, False):
             raise ImmutableAttributeError(
-                f'The attribute "{obj.__class__.__name__}.{self._name}" is immutable after '
-                "initialization"
+                f'The attribute "{obj.__class__.__name__}.{self._attribute_name}" is immutable '
+                "after initialization"
             )
 
         setattr(obj, self._flag_name, True)
-        setattr(obj, self._name, value)
+        setattr(obj, self._private_attribute_name, value)

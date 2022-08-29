@@ -10,6 +10,9 @@ the [PEP 440 version scheme](https://peps.python.org/pep-0440/#version-scheme).
 ### Changed
 - License from MIT to LGPLv3.0
 
+### Fixed
+- Attribute name in ImmutableAttributeError raised by SetOnce.
+
 ## [v0.1.0-alpha2]
 ### Changed
 - Use tuple instead of ListView for pytrified sequences.

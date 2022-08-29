@@ -29,3 +29,13 @@ def test_set_once__different_objects():
     # Raises exception on failure
     t1.member = 1
     t2.member = 1
+
+
+def test_immutable_attribute_error_message():
+    t = T()
+    t.member = 1
+
+    with pytest.raises(ImmutableAttributeError) as err:
+        t.member = 2
+
+    assert "T.member" in str(err.value)
