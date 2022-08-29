@@ -27,7 +27,7 @@ paths = ["pytrify"]
 
 [tool.poetry]
 name = "pytrify"
-version = "v0.1.0-alpha2"
+version = "v0.1.0-alpha3"
 description = "A library for making Python objects immutable"
 authors = ["Mike Salvatore <mike.s.salvatore@gmail.com>"]
 license = "MIT"
