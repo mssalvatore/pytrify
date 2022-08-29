@@ -10,8 +10,16 @@ class T:
 def test_set_once():
     t = T()
     t.member = 1
+
     with pytest.raises(ImmutableAttributeError):
         t.member = 2
+
+
+def test_set_once__get_member():
+    t = T()
+    t.member = 1
+
+    assert t.member == 1
 
 
 def test_set_once__different_objects():
