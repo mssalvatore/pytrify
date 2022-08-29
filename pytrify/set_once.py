@@ -9,7 +9,7 @@ class SetOnce:
     """
     A descriptor used to make immutable attributes
 
-    Allows attributes to be immutable after initialization.
+    Creates attributes that are immutable after initialization.
 
     Example:
         >>> from pytrify import SetOnce
