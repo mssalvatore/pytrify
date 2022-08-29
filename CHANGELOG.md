@@ -7,6 +7,9 @@ Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to
 the [PEP 440 version scheme](https://peps.python.org/pep-0440/#version-scheme).
 
 ## [Unreleased]
+### Added
+- MutableWhileNone
+
 ### Changed
 - License from MIT to LGPLv3.0
 
